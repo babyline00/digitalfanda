@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+    <title><?php echo e(config('app.name', 'DigitalFanda')); ?> <?php echo $__env->yieldContent('title'); ?></title>
+    <meta name="description" content="<?php echo e(setting('general.site_description', 'Digital products marketplace')); ?>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '<?php echo e(setting("appearance.primary_color", "#6C5CE7")); ?>',
+                        secondary: '<?php echo e(setting("appearance.secondary_color", "#00D9A3")); ?>',
+                        dark: '#1A1A2E',
+                        'dark-light': '#0F0F1A',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                }
+            }
+        }
+    </script>
+    <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
+    <?php echo $__env->yieldContent('head'); ?>
+</head>
+<body class="font-sans antialiased bg-neutral-50 text-neutral-900 min-h-screen flex flex-col">
+    <?php echo $__env->make('components.navbar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+    
+    <main class="flex-1">
+        <?php echo $__env->yieldContent('content'); ?>
+    </main>
+    
+    <?php echo $__env->make('components.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+    
+    <?php if(session('success')): ?>
+        <div class="fixed bottom-4 right-4 z-50 animate-slide-up bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <?php echo e(session('success')); ?>
+
+        </div>
+    <?php endif; ?>
+    <?php if(session('error')): ?>
+        <div class="fixed bottom-4 right-4 z-50 animate-slide-up bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            <?php echo e(session('error')); ?>
+
+        </div>
+    <?php endif; ?>
+    
+    <?php echo $__env->yieldContent('scripts'); ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                document.querySelectorAll('.animate-slide-up').forEach(el => el.remove());
+            }, 5000);
+        });
+    </script>
+</body>
+</html><?php /**PATH C:\Users\User\Desktop\Ahmed\digitalfanda\resources\views\layouts\app.blade.php ENDPATH**/ ?>
